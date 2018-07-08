@@ -18,6 +18,7 @@ cell :: cell()
 	oct_basis = nullptr;
 	oct_center = nullptr;
 	Ti_proj = nullptr;
+	Ti_sphere = nullptr;
 }
 
 cell :: ~cell()
@@ -53,6 +54,8 @@ cell :: ~cell()
 		delete[] oct_center;
 	if (Ti_proj != nullptr)
 		delete[] Ti_proj;
+	if (Ti_sphere != nullptr)
+		delete[] Ti_sphere;
 }
 
 void cell :: get_lattice(double a, double b, double c)
@@ -101,6 +104,8 @@ void cell :: get_num_atom_Ti(int numatom, int numTi)
 		oct_center = new coord[num_Ti];
 	if (Ti_proj == nullptr)
 		Ti_proj = new coord[num_Ti];
+	if (Ti_sphere == nullptr)
+		Ti_sphere = new coord[num_Ti];
 }
 
 void cell :: label_Ti_O(int ti, int o0,int o1,int o2,int o3,int o4,int o5)
@@ -204,6 +209,43 @@ void cell :: project_Ti()
 		Ti_proj[t1].y = (atom[Ti[t1]].x-oct_center[t1].x)*oct_basis[t1][1].x+(atom[Ti[t1]].y-oct_center[t1].y)*oct_basis[t1][1].y+(atom[Ti[t1]].z-oct_center[t1].z)*oct_basis[t1][1].z;
 		Ti_proj[t1].z = (atom[Ti[t1]].x-oct_center[t1].x)*oct_basis[t1][2].x+(atom[Ti[t1]].y-oct_center[t1].y)*oct_basis[t1][2].y+(atom[Ti[t1]].z-oct_center[t1].z)*oct_basis[t1][2].z;
 	}
+	// find position in spherical coordinate
+	for (int t1=0; t1< num_Ti; t1++)
+	{
+		Ti_sphere[t1].x = sqrt(Ti_proj[t1].x*Ti_proj[t1].x + Ti_proj[t1].y*Ti_proj[t1].y + Ti_proj[t1].z*Ti_proj[t1].z);
+		Ti_sphere[t1].y = acos(Ti_proj[t1].z / Ti_sphere[t1].x) * 180 / 3.1415926536;
+		Ti_sphere[t1].z = acos(Ti_proj[t1].x / Ti_sphere[t1].x / sin(acos(Ti_proj[t1].z / Ti_sphere[t1].x))) * 180 / 3.1415926536;
+		if (Ti_proj[t1].y / sin(acos(Ti_proj[t1].z / Ti_sphere[t1].x)) < 0)
+			Ti_sphere[t1].z = -Ti_sphere[t1].z + 360;
+	}
+}
+
+coord cell :: position_Ti(int label)
+{
+	coord pos;
+	pos.x = pos.y = pos.z = 0;
+	if (label == 1)
+	{
+		for(int t1=0; t1< num_Ti; t1++)
+		{
+			pos.x += Ti_proj[t1].x;
+			pos.y += Ti_proj[t1].y;
+			pos.z += Ti_proj[t1].z;
+		}
+	}
+	else if (label == 2)
+	{
+		for(int t1=0; t1< num_Ti; t1++)
+		{
+			pos.x += Ti_sphere[t1].x;
+			pos.y += Ti_sphere[t1].y;
+			pos.z += Ti_sphere[t1].z;
+		}
+	}
+	pos.x /= num_Ti;
+	pos.y /= num_Ti;
+	pos.z /= num_Ti;
+	return pos;
 }
 
 //--------------------------

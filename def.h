@@ -22,8 +22,8 @@ private:
 	coord **O_cor;		// O neighbor position correction
 	coord **oct_basis;	// basis expanded by oct.
 	coord *oct_center;	// center of oct.
-public:
 	coord *Ti_proj;		// Ti position project to oct. basis
+	coord *Ti_sphere;	// Ti position project to oct. in sphereical coordiante
 public:
 	cell();
 	~cell();
@@ -38,7 +38,7 @@ public:
 	// project Ti position to basis
 	void project_Ti();
 	// export data
-	coord position_Ti(int ith);	// position of Ti in oct. basis
+	coord position_Ti(int label);	// average position of Ti in oct. basis
 	// debug
 	void print_neighbor();
 	void print_O_correction();

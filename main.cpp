@@ -34,12 +34,13 @@ int main()
 		sto.O_correction(ti,o0,x,y,z);
 	}
 	// read position
-	for (t1=0; t1<13001; t1++)
+	for (t1=0; t1<7; t1++)
 	{
 		sto.read_coord(input);
 		sto.update_oct();
 		sto.project_Ti();
-		cout<<t1<<'\t'<<sto.Ti_proj[0].x+sto.Ti_proj[1].x+sto.Ti_proj[2].x+sto.Ti_proj[3].x<<'\t'<<sto.Ti_proj[0].y+sto.Ti_proj[1].y+sto.Ti_proj[2].y+sto.Ti_proj[3].y<<'\t'<<sto.Ti_proj[0].z+sto.Ti_proj[1].z+sto.Ti_proj[2].z+sto.Ti_proj[3].z<<endl;
+//		cout<<t1<<'\t'<<sto.Ti_proj[0].x+sto.Ti_proj[1].x+sto.Ti_proj[2].x+sto.Ti_proj[3].x<<'\t'<<sto.Ti_proj[0].y+sto.Ti_proj[1].y+sto.Ti_proj[2].y+sto.Ti_proj[3].y<<'\t'<<sto.Ti_proj[0].z+sto.Ti_proj[1].z+sto.Ti_proj[2].z+sto.Ti_proj[3].z<<endl;
+		cout<<t1+1<<'\t'<<sto.position_Ti(2).x<<'\t'<<sto.position_Ti(2).y<<'\t'<<sto.position_Ti(2).z<<endl;
 	}
 
 //	sto.print_neighbor();
