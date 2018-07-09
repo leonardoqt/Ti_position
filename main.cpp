@@ -10,12 +10,13 @@ int main()
 	ifstream input;
 	string input_name;
 	int ti, o0,o1,o2,o3,o4,o5;
-	int num_atom, num_Ti;
+	int num_atom, num_Ti, num_image;
 	double x,y,z;
 	int t1;
 	cell sto;
 
 	cin>>input_name;
+	cin>>num_image;
 	cin>>x>>y>>z;
 	cin>>num_atom>>num_Ti;
 	input.open(input_name);
@@ -34,7 +35,7 @@ int main()
 		sto.O_correction(ti,o0,x,y,z);
 	}
 	// read position
-	for (t1=0; t1<7; t1++)
+	for (t1=0; t1<num_image; t1++)
 	{
 		sto.read_coord(input);
 		sto.update_oct();

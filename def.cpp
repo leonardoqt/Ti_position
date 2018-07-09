@@ -155,7 +155,7 @@ void cell :: O_correction(int ti, int o, double x, double y, double z)
 void cell :: read_coord(ifstream &input)
 {
 	string temp;
-	string label="iter";
+	string label="PRIMCOORD";
 	getline(input, temp);
 	while(temp.find(label) == string::npos)
 		getline(input, temp);
