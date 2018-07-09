@@ -161,10 +161,10 @@ void cell :: read_coord(ifstream &input)
 		getline(input, temp);
 	for(int t1=0; t1<num_atom; t1++)
 	{
-		input>>temp>>atom_f[t1].x>>atom_f[t1].y>>atom_f[t1].z;
-		atom[t1].x = atom_f[t1].x*lattice.x;
-		atom[t1].y = atom_f[t1].y*lattice.y;
-		atom[t1].z = atom_f[t1].z*lattice.z;
+		input>>temp>>atom[t1].x>>atom[t1].y>>atom[t1].z;
+		atom_f[t1].x = atom[t1].x/lattice.x;
+		atom_f[t1].y = atom[t1].y/lattice.y;
+		atom_f[t1].z = atom[t1].z/lattice.z;
 	}
 }
 
