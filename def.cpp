@@ -299,11 +299,10 @@ void cell :: print_O_correction()
 void cell :: print_coord()
 {
 	for (int t1=0; t1<num_atom; t1++)
-	{
-		cout.precision(9);
-//		cout<<element[t1]<<setw(17)<<setprecision(9)<<atom[t1].x<<setw(15)<<setprecision(9)<<atom[t1].y<<setw(15)<<setprecision(9)<<atom[t1].z<<endl;
-		cout<<element[t1]<<setw(17)<<atom[t1].x<<setw(15)<<atom[t1].y<<setw(15)<<atom[t1].z<<endl;
-	}
+		if (element[t1][1] == 0)
+			cout<<element[t1]<<setw(18)<<fixed<<setprecision(9)<<atom[t1].x<<setw(15)<<setprecision(9)<<atom[t1].y<<setw(15)<<setprecision(9)<<atom[t1].z<<endl;
+		else
+			cout<<element[t1]<<setw(17)<<fixed<<setprecision(9)<<atom[t1].x<<setw(15)<<setprecision(9)<<atom[t1].y<<setw(15)<<setprecision(9)<<atom[t1].z<<endl;
 }
 
 void cell :: print_ti_center()
