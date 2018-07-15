@@ -67,11 +67,17 @@ cell :: ~cell()
 	}
 }
 
-void cell :: get_lattice(double a, double b, double c)
+void cell :: get_lattice(double xx, double xy, double xz, double yx, double yy, double yz, double zx, double zy, double zz)
 {
-	lattice.x = a;
-	lattice.y = b;
-	lattice.z = c;
+	latticex.x = xx;
+	latticex.y = xy;
+	latticex.z = xz;
+	latticey.x = yx;
+	latticey.y = yy;
+	latticey.z = yz;
+	latticez.x = zx;
+	latticez.y = zy;
+	latticez.z = zz;
 }
 
 void cell :: get_num_atom_Ti(int numatom, int numTi)
@@ -177,9 +183,9 @@ void cell :: read_coord(ifstream &input)
 	for(int t1=0; t1<num_atom; t1++)
 	{
 		input>>element[t1]>>atom[t1].x>>atom[t1].y>>atom[t1].z;
-		atom_f[t1].x = atom[t1].x/lattice.x;
-		atom_f[t1].y = atom[t1].y/lattice.y;
-		atom_f[t1].z = atom[t1].z/lattice.z;
+		atom_f[t1].x = atom[t1].x/latticex.x;
+		atom_f[t1].y = atom[t1].y/latticey.y;
+		atom_f[t1].z = atom[t1].z/latticez.z;
 	}
 }
 
@@ -188,15 +194,26 @@ void cell :: update_oct()
 	double norm;
 	for (int t1=0; t1<num_Ti; t1++)
 	{
-		oct_basis[t1][0].x = ((atom_f[O[t1][0]].x+O_cor[t1][0].x)-(atom_f[O[t1][5]].x+O_cor[t1][5].x))*lattice.x;
-		oct_basis[t1][0].y = ((atom_f[O[t1][0]].y+O_cor[t1][0].y)-(atom_f[O[t1][5]].y+O_cor[t1][5].y))*lattice.y;
-		oct_basis[t1][0].z = ((atom_f[O[t1][0]].z+O_cor[t1][0].z)-(atom_f[O[t1][5]].z+O_cor[t1][5].z))*lattice.z;
-		oct_basis[t1][1].x = ((atom_f[O[t1][1]].x+O_cor[t1][1].x)-(atom_f[O[t1][4]].x+O_cor[t1][4].x))*lattice.x;
-		oct_basis[t1][1].y = ((atom_f[O[t1][1]].y+O_cor[t1][1].y)-(atom_f[O[t1][4]].y+O_cor[t1][4].y))*lattice.y;
-		oct_basis[t1][1].z = ((atom_f[O[t1][1]].z+O_cor[t1][1].z)-(atom_f[O[t1][4]].z+O_cor[t1][4].z))*lattice.z;
-		oct_basis[t1][2].x = ((atom_f[O[t1][2]].x+O_cor[t1][2].x)-(atom_f[O[t1][3]].x+O_cor[t1][3].x))*lattice.x;
-		oct_basis[t1][2].y = ((atom_f[O[t1][2]].y+O_cor[t1][2].y)-(atom_f[O[t1][3]].y+O_cor[t1][3].y))*lattice.y;
-		oct_basis[t1][2].z = ((atom_f[O[t1][2]].z+O_cor[t1][2].z)-(atom_f[O[t1][3]].z+O_cor[t1][3].z))*lattice.z;
+//		oct_basis[t1][0].x = ((atom_f[O[t1][0]].x+O_cor[t1][0].x)-(atom_f[O[t1][5]].x+O_cor[t1][5].x))*latticex.x;
+//		oct_basis[t1][0].y = ((atom_f[O[t1][0]].y+O_cor[t1][0].y)-(atom_f[O[t1][5]].y+O_cor[t1][5].y))*latticey.y;
+//		oct_basis[t1][0].z = ((atom_f[O[t1][0]].z+O_cor[t1][0].z)-(atom_f[O[t1][5]].z+O_cor[t1][5].z))*latticez.z;
+//		oct_basis[t1][1].x = ((atom_f[O[t1][1]].x+O_cor[t1][1].x)-(atom_f[O[t1][4]].x+O_cor[t1][4].x))*latticex.x;
+//		oct_basis[t1][1].y = ((atom_f[O[t1][1]].y+O_cor[t1][1].y)-(atom_f[O[t1][4]].y+O_cor[t1][4].y))*latticey.y;
+//		oct_basis[t1][1].z = ((atom_f[O[t1][1]].z+O_cor[t1][1].z)-(atom_f[O[t1][4]].z+O_cor[t1][4].z))*latticez.z;
+//		oct_basis[t1][2].x = ((atom_f[O[t1][2]].x+O_cor[t1][2].x)-(atom_f[O[t1][3]].x+O_cor[t1][3].x))*latticex.x;
+//		oct_basis[t1][2].y = ((atom_f[O[t1][2]].y+O_cor[t1][2].y)-(atom_f[O[t1][3]].y+O_cor[t1][3].y))*latticey.y;
+//		oct_basis[t1][2].z = ((atom_f[O[t1][2]].z+O_cor[t1][2].z)-(atom_f[O[t1][3]].z+O_cor[t1][3].z))*latticez.z;
+
+		oct_basis[t1][0].x = (atom[O[t1][0]].x-atom[O[t1][5]].x)+(O_cor[t1][0].x-O_cor[t1][5].x)*latticex.x+(O_cor[t1][0].y-O_cor[t1][5].y)*latticey.x+(O_cor[t1][0].z-O_cor[t1][5].z)*latticez.x;
+		oct_basis[t1][0].y = (atom[O[t1][0]].y-atom[O[t1][5]].y)+(O_cor[t1][0].x-O_cor[t1][5].x)*latticex.y+(O_cor[t1][0].y-O_cor[t1][5].y)*latticey.y+(O_cor[t1][0].z-O_cor[t1][5].z)*latticez.y;
+		oct_basis[t1][0].z = (atom[O[t1][0]].z-atom[O[t1][5]].z)+(O_cor[t1][0].x-O_cor[t1][5].x)*latticex.z+(O_cor[t1][0].y-O_cor[t1][5].y)*latticey.z+(O_cor[t1][0].z-O_cor[t1][5].z)*latticez.z;
+		oct_basis[t1][1].x = (atom[O[t1][1]].x-atom[O[t1][4]].x)+(O_cor[t1][1].x-O_cor[t1][4].x)*latticex.x+(O_cor[t1][1].y-O_cor[t1][4].y)*latticey.x+(O_cor[t1][1].z-O_cor[t1][4].z)*latticez.x;
+		oct_basis[t1][1].y = (atom[O[t1][1]].y-atom[O[t1][4]].y)+(O_cor[t1][1].x-O_cor[t1][4].x)*latticex.y+(O_cor[t1][1].y-O_cor[t1][4].y)*latticey.y+(O_cor[t1][1].z-O_cor[t1][4].z)*latticez.y;
+		oct_basis[t1][1].z = (atom[O[t1][1]].z-atom[O[t1][4]].z)+(O_cor[t1][1].x-O_cor[t1][4].x)*latticex.z+(O_cor[t1][1].y-O_cor[t1][4].y)*latticey.z+(O_cor[t1][1].z-O_cor[t1][4].z)*latticez.z;
+		oct_basis[t1][2].x = (atom[O[t1][2]].x-atom[O[t1][3]].x)+(O_cor[t1][2].x-O_cor[t1][3].x)*latticex.x+(O_cor[t1][2].y-O_cor[t1][3].y)*latticey.x+(O_cor[t1][2].z-O_cor[t1][3].z)*latticez.x;
+		oct_basis[t1][2].y = (atom[O[t1][2]].y-atom[O[t1][3]].y)+(O_cor[t1][2].x-O_cor[t1][3].x)*latticex.y+(O_cor[t1][2].y-O_cor[t1][3].y)*latticey.y+(O_cor[t1][2].z-O_cor[t1][3].z)*latticez.y;
+		oct_basis[t1][2].z = (atom[O[t1][2]].z-atom[O[t1][3]].z)+(O_cor[t1][2].x-O_cor[t1][3].x)*latticex.z+(O_cor[t1][2].y-O_cor[t1][3].y)*latticey.z+(O_cor[t1][2].z-O_cor[t1][3].z)*latticez.z;
+
 		norm = sqrt(oct_basis[t1][0].x * oct_basis[t1][0].x + oct_basis[t1][0].y * oct_basis[t1][0].y + oct_basis[t1][0].z * oct_basis[t1][0].z);
 		oct_basis[t1][0].x = oct_basis[t1][0].x / norm;
 		oct_basis[t1][0].y = oct_basis[t1][0].y / norm;
@@ -210,9 +227,19 @@ void cell :: update_oct()
 		oct_basis[t1][2].y = oct_basis[t1][2].y / norm;
 		oct_basis[t1][2].z = oct_basis[t1][2].z / norm;
 
-		oct_center[t1].x = ((atom_f[O[t1][0]].x+O_cor[t1][0].x)+(atom_f[O[t1][1]].x+O_cor[t1][1].x)+(atom_f[O[t1][2]].x+O_cor[t1][2].x)+(atom_f[O[t1][3]].x+O_cor[t1][3].x)+(atom_f[O[t1][4]].x+O_cor[t1][4].x)+(atom_f[O[t1][5]].x+O_cor[t1][5].x))*lattice.x / 6;
-		oct_center[t1].y = ((atom_f[O[t1][0]].y+O_cor[t1][0].y)+(atom_f[O[t1][1]].y+O_cor[t1][1].y)+(atom_f[O[t1][2]].y+O_cor[t1][2].y)+(atom_f[O[t1][3]].y+O_cor[t1][3].y)+(atom_f[O[t1][4]].y+O_cor[t1][4].y)+(atom_f[O[t1][5]].y+O_cor[t1][5].y))*lattice.y / 6;
-		oct_center[t1].z = ((atom_f[O[t1][0]].z+O_cor[t1][0].z)+(atom_f[O[t1][1]].z+O_cor[t1][1].z)+(atom_f[O[t1][2]].z+O_cor[t1][2].z)+(atom_f[O[t1][3]].z+O_cor[t1][3].z)+(atom_f[O[t1][4]].z+O_cor[t1][4].z)+(atom_f[O[t1][5]].z+O_cor[t1][5].z))*lattice.z / 6;
+//		oct_center[t1].x = ((atom_f[O[t1][0]].x+O_cor[t1][0].x)+(atom_f[O[t1][1]].x+O_cor[t1][1].x)+(atom_f[O[t1][2]].x+O_cor[t1][2].x)+(atom_f[O[t1][3]].x+O_cor[t1][3].x)+(atom_f[O[t1][4]].x+O_cor[t1][4].x)+(atom_f[O[t1][5]].x+O_cor[t1][5].x))*latticex.x / 6;
+//		oct_center[t1].y = ((atom_f[O[t1][0]].y+O_cor[t1][0].y)+(atom_f[O[t1][1]].y+O_cor[t1][1].y)+(atom_f[O[t1][2]].y+O_cor[t1][2].y)+(atom_f[O[t1][3]].y+O_cor[t1][3].y)+(atom_f[O[t1][4]].y+O_cor[t1][4].y)+(atom_f[O[t1][5]].y+O_cor[t1][5].y))*latticey.y / 6;
+//		oct_center[t1].z = ((atom_f[O[t1][0]].z+O_cor[t1][0].z)+(atom_f[O[t1][1]].z+O_cor[t1][1].z)+(atom_f[O[t1][2]].z+O_cor[t1][2].z)+(atom_f[O[t1][3]].z+O_cor[t1][3].z)+(atom_f[O[t1][4]].z+O_cor[t1][4].z)+(atom_f[O[t1][5]].z+O_cor[t1][5].z))*latticez.z / 6;
+		oct_center[t1].x=oct_center[t1].y=oct_center[t1].z=0;
+		for (int t2=0; t2<6;t2++)
+		{
+			oct_center[t1].x += atom[O[t1][t2]].x + O_cor[t1][t2].x*latticex.x+O_cor[t1][t2].y*latticey.x+O_cor[t1][t2].z*latticez.x;
+			oct_center[t1].y += atom[O[t1][t2]].y + O_cor[t1][t2].x*latticex.y+O_cor[t1][t2].y*latticey.y+O_cor[t1][t2].z*latticez.y;
+			oct_center[t1].z += atom[O[t1][t2]].z + O_cor[t1][t2].x*latticex.z+O_cor[t1][t2].y*latticey.z+O_cor[t1][t2].z*latticez.z;
+		}
+		oct_center[t1].x /=6;
+		oct_center[t1].y /=6;
+		oct_center[t1].z /=6;
 	}
 }
 

@@ -11,18 +11,20 @@ int main()
 	string input_name;
 	int ti, o0,o1,o2,o3,o4,o5;
 	int num_atom, num_Ti, num_image;
-	double x,y,z;
+	double xx,xy,xz,yx,yy,yz,zx,zy,zz;
 	double r,theta,phi;
 	int t1;
 	cell sto;
 
 	cin>>input_name;
 	cin>>num_image;
-	cin>>x>>y>>z;
+	cin>>xx>>xy>>xz;
+	cin>>yx>>yy>>yz;
+	cin>>zx>>zy>>zz;
 	cin>>r>>theta>>phi;
 	cin>>num_atom>>num_Ti;
 	input.open(input_name);
-	sto.get_lattice(x,y,z);
+	sto.get_lattice(xx,xy,xz,yx,yy,yz,zx,zy,zz);
 	sto.get_num_atom_Ti(num_atom,num_Ti);
 	// find neighobr of Ti
 	for (t1=0; t1< num_Ti; t1++)
@@ -33,8 +35,8 @@ int main()
 	// periodic correction for O around Ti
 	while(!cin.eof())
 	{
-		cin>>ti>>o0>>x>>y>>z;
-		sto.O_correction(ti,o0,x,y,z);
+		cin>>ti>>o0>>xx>>yy>>zz;
+		sto.O_correction(ti,o0,xx,yy,zz);
 	}
 	// read position
 	for (t1=0; t1<num_image; t1++)

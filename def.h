@@ -13,7 +13,9 @@ public:
 class cell
 {
 private:
-	coord lattice;		// lattice vector
+	coord latticex;		// lattice vector
+	coord latticey;		// lattice vector
+	coord latticez;		// lattice vector
 	int num_atom;		// number of atoms
 	coord *atom_f;		// atom coordiantes in fractional coordiates
 	coord *atom;		// atom coordiantes
@@ -30,7 +32,7 @@ public:
 	cell();
 	~cell();
 	// setup of cell
-	void get_lattice(double a, double b, double c);
+	void get_lattice(double,double,double,double,double,double,double,double,double);
 	void get_num_atom_Ti(int numatom, int numTi);
 	void label_Ti_O(int ti, int o0,int o1,int o2,int o3,int o4,int o5);
 	void O_correction(int ti, int o, double x, double y, double z);
