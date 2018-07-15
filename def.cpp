@@ -3,6 +3,7 @@
 #include <fstream>
 #include <cstring>
 #include <cmath>
+#include <iomanip>
 #include "def.h"
 
 using namespace std;
@@ -19,6 +20,7 @@ cell :: cell()
 	oct_center = nullptr;
 	Ti_proj = nullptr;
 	Ti_sphere = nullptr;
+	element = nullptr;
 }
 
 cell :: ~cell()
@@ -56,6 +58,13 @@ cell :: ~cell()
 		delete[] Ti_proj;
 	if (Ti_sphere != nullptr)
 		delete[] Ti_sphere;
+	if (element != nullptr)
+	{
+		for (int t1=0; t1<num_Ti; t1++)
+			if (element[t1] != nullptr)
+				delete[] element[t1];
+		delete[] element;
+	}
 }
 
 void cell :: get_lattice(double a, double b, double c)
@@ -106,6 +115,12 @@ void cell :: get_num_atom_Ti(int numatom, int numTi)
 		Ti_proj = new coord[num_Ti];
 	if (Ti_sphere == nullptr)
 		Ti_sphere = new coord[num_Ti];
+	if (element == nullptr)
+	{
+		element = new char*[num_atom];
+		for (int t1=0; t1<num_atom; t1++)
+			element[t1] = new char[3];
+	}
 }
 
 void cell :: label_Ti_O(int ti, int o0,int o1,int o2,int o3,int o4,int o5)
@@ -161,7 +176,7 @@ void cell :: read_coord(ifstream &input)
 		getline(input, temp);
 	for(int t1=0; t1<num_atom; t1++)
 	{
-		input>>temp>>atom[t1].x>>atom[t1].y>>atom[t1].z;
+		input>>element[t1]>>atom[t1].x>>atom[t1].y>>atom[t1].z;
 		atom_f[t1].x = atom[t1].x/lattice.x;
 		atom_f[t1].y = atom[t1].y/lattice.y;
 		atom_f[t1].z = atom[t1].z/lattice.z;
@@ -220,6 +235,16 @@ void cell :: project_Ti()
 	}
 }
 
+void cell :: new_Ti_position(double r, double theta, double phi)
+{
+	for (int t1=0; t1<num_Ti; t1++)
+	{
+		atom[Ti[t1]].x = oct_center[t1].x + r * (sin(theta) * cos(phi) * oct_basis[t1][0].x + sin(theta) * sin(phi) * oct_basis[t1][1].x + cos(theta) * oct_basis[t1][2].x);
+		atom[Ti[t1]].y = oct_center[t1].y + r * (sin(theta) * cos(phi) * oct_basis[t1][0].y + sin(theta) * sin(phi) * oct_basis[t1][1].y + cos(theta) * oct_basis[t1][2].y);
+		atom[Ti[t1]].z = oct_center[t1].z + r * (sin(theta) * cos(phi) * oct_basis[t1][0].z + sin(theta) * sin(phi) * oct_basis[t1][1].z + cos(theta) * oct_basis[t1][2].z);
+	}
+}
+
 coord cell :: position_Ti(int label)
 {
 	coord pos;
@@ -274,7 +299,11 @@ void cell :: print_O_correction()
 void cell :: print_coord()
 {
 	for (int t1=0; t1<num_atom; t1++)
-		cout<<atom[t1].x<<'\t'<<atom[t1].y<<'\t'<<atom[t1].z<<endl;
+	{
+		cout.precision(9);
+//		cout<<element[t1]<<setw(17)<<setprecision(9)<<atom[t1].x<<setw(15)<<setprecision(9)<<atom[t1].y<<setw(15)<<setprecision(9)<<atom[t1].z<<endl;
+		cout<<element[t1]<<setw(17)<<atom[t1].x<<setw(15)<<atom[t1].y<<setw(15)<<atom[t1].z<<endl;
+	}
 }
 
 void cell :: print_ti_center()

@@ -1,3 +1,4 @@
+#include <iostream>
 #ifndef CELL
 #define CELL
 class coord;
@@ -24,6 +25,7 @@ private:
 	coord *oct_center;	// center of oct.
 	coord *Ti_proj;		// Ti position project to oct. basis
 	coord *Ti_sphere;	// Ti position project to oct. in sphereical coordiante
+	char **element;		// element symbol
 public:
 	cell();
 	~cell();
@@ -37,6 +39,8 @@ public:
 	void update_oct();
 	// project Ti position to basis
 	void project_Ti();
+	// calculate new Ti_position based on defined devation
+	void new_Ti_position(double r, double theta, double phi);
 	// export data
 	coord position_Ti(int label);	// average position of Ti in oct. basis
 	// debug

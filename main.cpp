@@ -12,12 +12,14 @@ int main()
 	int ti, o0,o1,o2,o3,o4,o5;
 	int num_atom, num_Ti, num_image;
 	double x,y,z;
+	double r,theta,phi;
 	int t1;
 	cell sto;
 
 	cin>>input_name;
 	cin>>num_image;
 	cin>>x>>y>>z;
+	cin>>r>>theta>>phi;
 	cin>>num_atom>>num_Ti;
 	input.open(input_name);
 	sto.get_lattice(x,y,z);
@@ -40,8 +42,9 @@ int main()
 		sto.read_coord(input);
 		sto.update_oct();
 		sto.project_Ti();
+		sto.new_Ti_position(r,theta,phi);
 //		cout<<t1<<'\t'<<sto.Ti_proj[0].x+sto.Ti_proj[1].x+sto.Ti_proj[2].x+sto.Ti_proj[3].x<<'\t'<<sto.Ti_proj[0].y+sto.Ti_proj[1].y+sto.Ti_proj[2].y+sto.Ti_proj[3].y<<'\t'<<sto.Ti_proj[0].z+sto.Ti_proj[1].z+sto.Ti_proj[2].z+sto.Ti_proj[3].z<<endl;
-		cout<<t1+1<<'\t'<<sto.position_Ti(2).x<<'\t'<<sto.position_Ti(2).y<<'\t'<<sto.position_Ti(2).z<<endl;
+		sto.print_coord();
 	}
 
 //	sto.print_neighbor();
