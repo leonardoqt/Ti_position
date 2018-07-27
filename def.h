@@ -43,6 +43,7 @@ public:
 	void project_Ti();
 	// calculate new Ti_position based on defined devation
 	void new_Ti_position(double r, double theta, double phi);
+	void new_Ti_position_xyz(double x, double y, double z);
 	// export data
 	coord position_Ti(int label);	// average position of Ti in oct. basis
 	// debug

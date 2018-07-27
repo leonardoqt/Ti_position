@@ -272,6 +272,16 @@ void cell :: new_Ti_position(double r, double theta, double phi)
 	}
 }
 
+void cell :: new_Ti_position_xyz(double x, double y, double z)
+{
+	for (int t1=0; t1<num_Ti; t1++)
+	{
+		atom[Ti[t1]].x = oct_center[t1].x + x * oct_basis[t1][0].x + y * oct_basis[t1][1].x + z * oct_basis[t1][2].x;
+		atom[Ti[t1]].y = oct_center[t1].y + x * oct_basis[t1][0].y + y * oct_basis[t1][1].y + z * oct_basis[t1][2].y;
+		atom[Ti[t1]].z = oct_center[t1].z + x * oct_basis[t1][0].z + y * oct_basis[t1][1].z + z * oct_basis[t1][2].z;
+	}
+}
+
 coord cell :: position_Ti(int label)
 {
 	coord pos;

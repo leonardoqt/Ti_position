@@ -44,7 +44,7 @@ int main()
 		sto.read_coord(input);
 		sto.update_oct();
 		sto.project_Ti();
-		sto.new_Ti_position(r,theta,phi);
+		sto.new_Ti_position_xyz(r,theta,phi);
 //		cout<<t1<<'\t'<<sto.Ti_proj[0].x+sto.Ti_proj[1].x+sto.Ti_proj[2].x+sto.Ti_proj[3].x<<'\t'<<sto.Ti_proj[0].y+sto.Ti_proj[1].y+sto.Ti_proj[2].y+sto.Ti_proj[3].y<<'\t'<<sto.Ti_proj[0].z+sto.Ti_proj[1].z+sto.Ti_proj[2].z+sto.Ti_proj[3].z<<endl;
 		sto.print_coord();
 	}
