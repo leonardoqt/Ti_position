@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "def.h"
+#include "class.h"
 
 using namespace std;
 
@@ -9,51 +9,29 @@ int main()
 {
 	ifstream input;
 	string input_name;
-	int ti, o0,o1,o2,o3,o4,o5;
-	int num_atom, num_Ti, num_image;
-	double xx,xy,xz,yx,yy,yz,zx,zy,zz;
-	double r,theta,phi;
-	int t1;
+	int num_atom;
+	vec aa,bb,cc;
+	vec local_coord[3];
+	vec move;
 	cell sto;
 
 	cin>>input_name;
-	cin>>num_image;
-	cin>>xx>>xy>>xz;
-	cin>>yx>>yy>>yz;
-	cin>>zx>>zy>>zz;
-	cin>>r>>theta>>phi;
-	cin>>num_atom>>num_Ti;
+	cin>>num_atom;
+	cin>>aa.x[0]>>aa.x[1]>>aa.x[2];
+	cin>>bb.x[0]>>bb.x[1]>>bb.x[2];
+	cin>>cc.x[0]>>cc.x[1]>>cc.x[2];
+	cin>>local_coord[0].x[0]>>local_coord[0].x[1]>>local_coord[0].x[2];
+	cin>>local_coord[1].x[0]>>local_coord[1].x[1]>>local_coord[1].x[2];
+	cin>>local_coord[2].x[0]>>local_coord[2].x[1]>>local_coord[2].x[2];
+	cin>>move.x[0]>>move.x[1]>>move.x[2];
 	input.open(input_name);
-	sto.get_lattice(xx,xy,xz,yx,yy,yz,zx,zy,zz);
-	sto.get_num_atom_Ti(num_atom,num_Ti);
-	// find neighobr of Ti
-	for (t1=0; t1< num_Ti; t1++)
+	sto.setup_cell(aa,bb,cc,num_atom,input);
+	sto.get_local_coord(local_coord);
+	sto.move_Ti(move);
+	for (int t1=0; t1<8; t1++)
 	{
-		cin>>ti>>o0>>o1>>o2>>o3>>o4>>o5;
-		sto.label_Ti_O(ti,o0,o1,o2,o3,o4,o5);
+		for(int t2=0; t2<6; t2++)
+			cout<<sto.oct[t1][t2].symbol<<'\t'<<sto.oct[t1][t2].pos.x[0]<<'\t'<<sto.oct[t1][t2].pos.x[1]<<'\t'<<sto.oct[t1][t2].pos.x[2]<<endl;
+		cout<<sto.a_l[sto.Ti_index[t1]].symbol<<'\t'<<sto.a_l[sto.Ti_index[t1]].pos.x[0]<<'\t'<<sto.a_l[sto.Ti_index[t1]].pos.x[1]<<'\t'<<sto.a_l[sto.Ti_index[t1]].pos.x[2]<<endl;
 	}
-	// periodic correction for O around Ti
-	while(!cin.eof())
-	{
-		cin>>ti>>o0>>xx>>yy>>zz;
-		sto.O_correction(ti,o0,xx,yy,zz);
-	}
-	// read position
-	for (t1=0; t1<num_image; t1++)
-	{
-		sto.read_coord(input);
-		sto.update_oct();
-		sto.project_Ti();
-		sto.new_Ti_position_xyz(r,theta,phi);
-//		cout<<t1<<'\t'<<sto.Ti_proj[0].x+sto.Ti_proj[1].x+sto.Ti_proj[2].x+sto.Ti_proj[3].x<<'\t'<<sto.Ti_proj[0].y+sto.Ti_proj[1].y+sto.Ti_proj[2].y+sto.Ti_proj[3].y<<'\t'<<sto.Ti_proj[0].z+sto.Ti_proj[1].z+sto.Ti_proj[2].z+sto.Ti_proj[3].z<<endl;
-		sto.print_coord();
-	}
-
-//	sto.print_neighbor();
-//	sto.print_O_correction();
-//	sto.print_coord();
-//	sto.print_ti_center();
-//	sto.print_ti_basis();
-//	sto.print_proj();
-	return 0;
 }
