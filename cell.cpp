@@ -1,3 +1,5 @@
+#include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <cmath>
 #include "class.h"
@@ -102,11 +104,11 @@ void cell :: get_local_coord(vec xx[3])
 					tmp = oct[t2][n2].pos - oct[t2][n1].pos;
 					if( (tmp*xx[t1])/tmp.norm()/xx[t1].norm() > lim )	//forward
 					{
-						oct_basis[t2][t1] = tmp*sqrt(1/tmp.norm());
+						oct_basis[t2][t1] = tmp*(1/tmp.norm());
 					}
 					else if ( -(tmp*xx[t1])/tmp.norm()/xx[t1].norm() > lim )	//backward
 					{
-						oct_basis[t2][t1] = tmp*(sqrt(1/tmp.norm())*-1);
+						oct_basis[t2][t1] = tmp*(-1/tmp.norm());
 					}
 				}
 			}
@@ -117,5 +119,16 @@ void cell :: move_Ti(vec dx)
 	for (int t1=0; t1<num_Ti; t1++)
 	{
 		a_l[Ti_index[t1]].pos = oct_center[t1] + oct_basis[t1][0] * dx.x[0] + oct_basis[t1][1] * dx.x[1] + oct_basis[t1][2] * dx.x[2];
+	}
+}
+
+void cell :: print_all()
+{
+	for (int t1=0; t1<num_atom; t1++)
+	{
+		if (a_l[t1].sym == 2)	//O
+			cout<<a_l[t1].symbol<<setw(17)<<setprecision(9)<<fixed<<a_l[t1].pos.x[0]<<setw(14)<<setprecision(9)<<fixed<<a_l[t1].pos.x[1]<<setw(14)<<setprecision(9)<<fixed<<a_l[t1].pos.x[2]<<endl;
+		else
+			cout<<a_l[t1].symbol<<setw(16)<<setprecision(9)<<fixed<<a_l[t1].pos.x[0]<<setw(14)<<setprecision(9)<<fixed<<a_l[t1].pos.x[1]<<setw(14)<<setprecision(9)<<fixed<<a_l[t1].pos.x[2]<<endl;
 	}
 }

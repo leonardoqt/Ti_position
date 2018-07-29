@@ -62,6 +62,8 @@ public:
 	void get_local_coord(vec xx[3]);
 	// move atom
 	void move_Ti(vec dx);
+	// print
+	void print_all();
 };
 
 #endif

@@ -28,10 +28,7 @@ int main()
 	sto.setup_cell(aa,bb,cc,num_atom,input);
 	sto.get_local_coord(local_coord);
 	sto.move_Ti(move);
-	for (int t1=0; t1<8; t1++)
-	{
-		for(int t2=0; t2<6; t2++)
-			cout<<sto.oct[t1][t2].symbol<<'\t'<<sto.oct[t1][t2].pos.x[0]<<'\t'<<sto.oct[t1][t2].pos.x[1]<<'\t'<<sto.oct[t1][t2].pos.x[2]<<endl;
-		cout<<sto.a_l[sto.Ti_index[t1]].symbol<<'\t'<<sto.a_l[sto.Ti_index[t1]].pos.x[0]<<'\t'<<sto.a_l[sto.Ti_index[t1]].pos.x[1]<<'\t'<<sto.a_l[sto.Ti_index[t1]].pos.x[2]<<endl;
-	}
+	sto.print_all();
+
+	return 0;
 }
