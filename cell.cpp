@@ -129,6 +129,6 @@ void cell :: print_all()
 		if (a_l[t1].sym == 2)	//O
 			cout<<a_l[t1].symbol<<setw(17)<<setprecision(9)<<fixed<<a_l[t1].pos.x[0]<<setw(14)<<setprecision(9)<<fixed<<a_l[t1].pos.x[1]<<setw(14)<<setprecision(9)<<fixed<<a_l[t1].pos.x[2]<<endl;
 		else
-			cout<<a_l[t1].symbol<<setw(16)<<setprecision(9)<<fixed<<a_l[t1].pos.x[0]<<setw(14)<<setprecision(9)<<fixed<<a_l[t1].pos.x[1]<<setw(14)<<setprecision(9)<<fixed<<a_l[t1].pos.x[2]<<endl;
+			cout<<a_l[t1].symbol<<setw(16)<<setprecision(9)<<fixed<<a_l[t1].pos.x[0]<<setw(14)<<setprecision(9)<<fixed<<a_l[t1].pos.x[1]<<setw(14)<<setprecision(9)<<fixed<<a_l[t1].pos.x[2]<<" 0 0 0"<<endl;
 	}
 }
